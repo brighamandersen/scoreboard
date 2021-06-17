@@ -3,13 +3,7 @@ import useLocalStorage from "./useLocalStorage";
 import Navbar from "./Navbar";
 import PreGame from "./PreGame";
 import PostGame from "./PostGame";
-import {
-  Box,
-  makeStyles,
-  Typography,
-  IconButton,
-  Tooltip,
-} from "@material-ui/core";
+import { Box, makeStyles, IconButton, Tooltip } from "@material-ui/core";
 import MidGame from "./MidGame";
 import GitHubIcon from "@material-ui/icons/GitHub";
 import uuid from "react-uuid";
@@ -17,12 +11,12 @@ import uuid from "react-uuid";
 const mockData = [
   {
     id: uuid(),
-    name: "Brig",
+    name: "",
     score: 0,
   },
   {
     id: uuid(),
-    name: "Dad",
+    name: "",
     score: 0,
   },
 ];
@@ -71,7 +65,6 @@ const App = () => {
     const temp = players.filter((p) => p.id !== playerToDelete.id);
     setPlayers(temp);
   };
-  console.log(players);
 
   return (
     <Box>
@@ -105,7 +98,8 @@ const App = () => {
       <Tooltip title="See Source Code">
         <IconButton
           color="primary"
-          href="https://www.github.com"
+          target="_blank"
+          href="https://github.com/brighamband/scoreboard"
           className={classes.bottomRight}
         >
           <GitHubIcon />

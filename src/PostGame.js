@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Container,
   Typography,
@@ -37,6 +37,10 @@ const PostGame = (props) => {
     else if (max.score === p.score) return { msg: "No winner, it's a tie!" };
     else return p;
   });
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <Container maxWidth="sm">

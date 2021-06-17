@@ -63,7 +63,7 @@ const MidGame = (props) => {
         endIcon={<DoneIcon />}
         onClick={() => setGameStatus("post")}
       >
-        Finish game
+        End game
       </Button>
     </Container>
   );

@@ -10,15 +10,15 @@ import {
   Typography,
   IconButton,
   Tooltip,
+  Table,
+  TableRow,
+  TableCell,
 } from "@material-ui/core";
 import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
-import AddCircleIcon from "@material-ui/icons/AddCircle";
+import PlaylistAddIcon from "@material-ui/icons/PlaylistAdd";
 import SendIcon from "@material-ui/icons/Send";
 
 const useStyles = makeStyles({
-  formControl: {
-    minWidth: 120,
-  },
   preCard: {
     margin: "2rem 1rem",
     padding: "1rem",
@@ -26,6 +26,14 @@ const useStyles = makeStyles({
   },
   preButton: {
     margin: "1rem",
+  },
+  nameText: {
+    width: "100%",
+  },
+  tableRow: {
+    "&:last-child td": {
+      borderBottom: 0,
+    },
   },
 });
 
@@ -36,11 +44,30 @@ const PreGame = (props) => {
 
   const startGame = (e) => {
     e.preventDefault();
-    // for (let p in players) {
-    //   if p.name
-    // }
-
     setGameStatus("mid");
+  };
+
+  const validateName = (player) => {
+    if (player.name === "") {
+      console.log(player);
+      return "";
+    }
+
+    // Check to see if this name already exists
+    const playerNames = players.map((p) => p.name);
+    const matches = playerNames.filter((name) => name === player.name);
+    if (matches.length > 1) {
+      return "No duplicates allowed";
+    }
+
+    return "";
+  };
+
+  // Loops through all players looking for duplicate names
+  const checkForDuplicates = () => {
+    const playerNames = players.map((p) => p.name);
+    const hasDuplicates = new Set(playerNames).size !== playerNames.length;
+    return hasDuplicates;
   };
 
   return (
@@ -50,29 +77,40 @@ const PreGame = (props) => {
           Game Setup
         </Typography>
         <form onSubmit={startGame}>
-          {players.map((player) => (
-            <div key={player.id}>
-              <Avatar>{player.name.charAt(0).toUpperCase() || "?"}</Avatar>
-              <TextField
-                required
-                label="Name"
-                placeholder="Enter name here"
-                value={player.name}
-                onChange={(e) => changeName(player, e.target.value)}
-              />
-              <Tooltip title="Delete Player">
-                <IconButton onClick={() => deletePlayer(player)}>
-                  <DeleteOutlineIcon />
-                </IconButton>
-              </Tooltip>
-            </div>
-          ))}
-          <Box>
+          <Table>
+            {players.map((player) => (
+              <TableRow key={player.id} className={classes.tableRow}>
+                <TableCell>
+                  <Avatar>{player.name.charAt(0).toUpperCase() || "?"}</Avatar>
+                </TableCell>
+                <TableCell>
+                  <TextField
+                    required
+                    label="Name"
+                    placeholder="Enter name here"
+                    className={classes.nameText}
+                    value={player.name}
+                    onChange={(e) => changeName(player, e.target.value)}
+                    error={validateName(player) !== ""}
+                    helperText={validateName(player)}
+                  />
+                </TableCell>
+                <TableCell>
+                  <Tooltip title="Delete Player">
+                    <IconButton onClick={() => deletePlayer(player)}>
+                      <DeleteOutlineIcon />
+                    </IconButton>
+                  </Tooltip>
+                </TableCell>
+              </TableRow>
+            ))}
+          </Table>
+          <Box p={2}>
             <Button
               variant={players.length < 2 ? "contained" : "outlined"}
               color="secondary"
               className={classes.preButton}
-              endIcon={<AddCircleIcon />}
+              endIcon={<PlaylistAddIcon />}
               onClick={addPlayer}
             >
               Add new player
@@ -83,7 +121,7 @@ const PreGame = (props) => {
               className={classes.preButton}
               endIcon={<SendIcon />}
               type="submit"
-              disabled={players.length < 2}
+              disabled={players.length < 2 || checkForDuplicates()}
             >
               Start game
             </Button>
