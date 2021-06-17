@@ -42,6 +42,8 @@ const PreGame = (props) => {
 
   const classes = useStyles();
 
+  const playerNames = players.map((p) => p.name);
+
   const startGame = (e) => {
     e.preventDefault();
     setGameStatus("mid");
@@ -54,7 +56,6 @@ const PreGame = (props) => {
     }
 
     // Check to see if this name already exists
-    const playerNames = players.map((p) => p.name);
     const matches = playerNames.filter((name) => name === player.name);
     if (matches.length > 1) {
       return "No duplicates allowed";
@@ -65,9 +66,13 @@ const PreGame = (props) => {
 
   // Loops through all players looking for duplicate names
   const checkForDuplicates = () => {
-    const playerNames = players.map((p) => p.name);
     const hasDuplicates = new Set(playerNames).size !== playerNames.length;
     return hasDuplicates;
+  };
+
+  // Loops through all players looking for blank names
+  const checkForBlankNames = () => {
+    return playerNames.some((name) => name === "");
   };
 
   return (
@@ -121,7 +126,11 @@ const PreGame = (props) => {
               className={classes.preButton}
               endIcon={<SendIcon />}
               type="submit"
-              disabled={players.length < 2 || checkForDuplicates()}
+              disabled={
+                players.length < 2 ||
+                checkForDuplicates() ||
+                checkForBlankNames()
+              }
             >
               Start game
             </Button>
