@@ -2,7 +2,7 @@ import React from 'react';import { makeStyles, Container, Button } from '@materi
 import PlayerCard from './PlayerCard';
 
 const useStyles = makeStyles({
-  midContainer: {
+  root: {
     textAlign: 'center'
   }
 });
@@ -13,7 +13,7 @@ const MidGame = (props) => {
   const classes = useStyles();
 
   return (
-    <Container className={classes.midContainer}>
+    <Container className={classes.root}  maxWidth="sm">
       {players.map((player) => (
         <PlayerCard
           key={player.id}
@@ -21,7 +21,13 @@ const MidGame = (props) => {
           changeScore={changeScore}
         />
       ))}
-      <Button variant="contained" color="primary" onClick={() => setGameStatus('post')}>Finish game</Button>
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={() => setGameStatus('post')}
+      >
+        Finish game
+      </Button>
     </Container>
   );
 }
