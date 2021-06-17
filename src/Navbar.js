@@ -1,31 +1,32 @@
 import React from "react";
-import styled from "styled-components";
-import { NAVBAR_SHADOW } from "./constants";
+import { AppBar, Toolbar, Typography, makeStyles } from "@material-ui/core";
 
-const Wrapper = styled.nav`
-  background: white;
-  ${NAVBAR_SHADOW};
-`;
+const useStyles = makeStyles({
+  appBar: {
+    background: 'white',
+    alignItems: 'center'
+  },
+  appName: {
+    margin: '0',
+    padding: '1rem',
+    fontSize: 'x-large',
+    fontWeight: 'bold',
+    textAlign: 'center'
+  }
+});
 
-const NavText = styled.p`
-  color: var(--primary);
-  margin: 0;
-  padding: 1rem;
-  font-size: x-large;
-  font-weight: bold;
-  text-align: center;
-`;
+const Navbar = () => {
+  const classes = useStyles();
 
-const Span = styled.span`
-  color: var(--secondary);
-`;
-
-const Navbar = () => (
-  <Wrapper>
-    <NavText>
-      <Span>Score</Span>Board
-    </NavText>
-  </Wrapper>
-);
+  return (
+    <AppBar position="static" className={classes.appBar}>
+      <Toolbar>
+        <Typography variant="p" className={classes.appName} color="primary">
+        <Typography variant="span" color="secondary">Score</Typography>Board
+        </Typography>
+      </Toolbar>
+    </AppBar>
+  );
+}
 
 export default Navbar;

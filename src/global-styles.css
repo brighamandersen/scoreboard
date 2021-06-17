@@ -1,0 +1,20 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+div#root {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  font-family: Arial, Helvetica, sans-serif;
+  background: #dedede;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}

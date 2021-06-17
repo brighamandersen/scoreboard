@@ -4,6 +4,8 @@ import Navbar from './Navbar';
 import PlayerCard from './PlayerCard';
 import PreGame from './PreGame';
 import PostGame from './PostGame';
+import { Button, Box, Container, makeStyles } from '@material-ui/core';
+import MidGame from './MidGame';
 
 const mockData = [
   {
@@ -18,9 +20,12 @@ const mockData = [
   }
 ];
 
+
+
 const App = () => {
+
   // Possible values: 'pre', 'mid', 'post'
-  const [gameStatus, setGameStatus] = useLocalStorage('gameStatus', 'pre');  
+  const [gameStatus, setGameStatus] = useLocalStorage('gameStatus', 'pre');
   const [players, setPlayers] = useLocalStorage('players', mockData);
 
   function changeScore(player, pointChange) {
@@ -30,32 +35,27 @@ const App = () => {
   }
 
  return (
-  <>
+  <Box>
     <Navbar />
     {gameStatus === 'pre' && (
       <PreGame setGameStatus={setGameStatus} />
     )}
     {gameStatus === 'mid' && (
-      <>
-      {players.map((player) => (
-        <PlayerCard 
-          key={player.id}
-          player={player}
-          changeScore={changeScore} 
-          />
-      ))}
-      <button onClick={() => setGameStatus('post')}>Finish game</button>
-      </>
+      <MidGame
+        players={players}
+        changeScore={changeScore}
+        setGameStatus={setGameStatus}
+      />
     )}
     {gameStatus === 'post' && (
-      <PostGame 
+      <PostGame
         setGameStatus={setGameStatus}
         players={players}
         setPlayers={setPlayers}
-        mockData={mockData}  
+        mockData={mockData}
       />
     )}
-  </>
+  </Box>
 );
  }
 
