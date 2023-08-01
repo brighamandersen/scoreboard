@@ -1,44 +1,44 @@
-import React from "react";
-import useLocalStorage from "./useLocalStorage";
-import Navbar from "./Navbar";
-import PreGame from "./PreGame";
-import PostGame from "./PostGame";
-import { Box, makeStyles, IconButton, Tooltip } from "@material-ui/core";
-import MidGame from "./MidGame";
-import GitHubIcon from "@material-ui/icons/GitHub";
-import uuid from "react-uuid";
+import React from 'react';
+import useLocalStorage from './useLocalStorage';
+import Navbar from './Navbar';
+import PreGame from './PreGame';
+import PostGame from './PostGame';
+import { Box, makeStyles, IconButton, Tooltip } from '@material-ui/core';
+import MidGame from './MidGame';
+import GitHubIcon from '@material-ui/icons/GitHub';
+import uuid from 'react-uuid';
 
 const mockData = [
   {
     id: uuid(),
-    name: "",
-    score: 0,
+    name: '',
+    score: 0
   },
   {
     id: uuid(),
-    name: "",
-    score: 0,
-  },
+    name: '',
+    score: 0
+  }
 ];
 
 const useStyles = makeStyles({
   screenWrapper: {
-    paddingTop: "1rem",
-    paddingBottom: "4rem",
+    paddingTop: '1rem',
+    paddingBottom: '4rem'
   },
   bottomRight: {
-    position: "fixed",
-    bottom: "3%",
-    right: "3%",
-  },
+    position: 'fixed',
+    bottom: '3%',
+    right: '3%'
+  }
 });
 
 const App = () => {
   const classes = useStyles();
 
   // Possible values: 'pre', 'mid', 'post'
-  const [gameStatus, setGameStatus] = useLocalStorage("gameStatus", "pre");
-  const [players, setPlayers] = useLocalStorage("players", mockData);
+  const [gameStatus, setGameStatus] = useLocalStorage('gameStatus', 'pre');
+  const [players, setPlayers] = useLocalStorage('players', mockData);
 
   const changeScore = (player, pointChange) => {
     const score = player.score + pointChange;
@@ -53,8 +53,8 @@ const App = () => {
   const addPlayer = () => {
     const newPlayer = {
       id: uuid(),
-      name: "",
-      score: 0,
+      name: '',
+      score: 0
     };
     const temp = [...players];
     temp.push(newPlayer);
@@ -70,7 +70,7 @@ const App = () => {
     <Box>
       <Navbar />
       <main className={classes.screenWrapper}>
-        {gameStatus === "pre" && (
+        {gameStatus === 'pre' && (
           <PreGame
             players={players}
             changeName={changeName}
@@ -79,14 +79,14 @@ const App = () => {
             setGameStatus={setGameStatus}
           />
         )}
-        {gameStatus === "mid" && (
+        {gameStatus === 'mid' && (
           <MidGame
             players={players}
             changeScore={changeScore}
             setGameStatus={setGameStatus}
           />
         )}
-        {gameStatus === "post" && (
+        {gameStatus === 'post' && (
           <PostGame
             setGameStatus={setGameStatus}
             players={players}
@@ -95,11 +95,11 @@ const App = () => {
           />
         )}
       </main>
-      <Tooltip title="See Source Code">
+      <Tooltip title='See Source Code'>
         <IconButton
-          color="primary"
-          target="_blank"
-          href="https://github.com/brighamband/scoreboard"
+          color='primary'
+          target='_blank'
+          href='https://github.com/brighamandersen/scoreboard'
           className={classes.bottomRight}
         >
           <GitHubIcon />
