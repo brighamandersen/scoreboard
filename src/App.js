@@ -39,6 +39,10 @@ const App = () => {
   // Possible values: 'pre', 'mid', 'post'
   const [gameStatus, setGameStatus] = useLocalStorage('gameStatus', 'pre');
   const [players, setPlayers] = useLocalStorage('players', mockData);
+  const [winnerHasHighestScore, setWinnerHasHighestScore] = useLocalStorage(
+    'winnerHasHighestScore',
+    true
+  );
 
   const changeScore = (player, pointChange) => {
     const score = player.score + pointChange;
@@ -77,6 +81,8 @@ const App = () => {
             addPlayer={addPlayer}
             deletePlayer={deletePlayer}
             setGameStatus={setGameStatus}
+            winnerHasHighestScore={winnerHasHighestScore}
+            setWinnerHasHighestScore={setWinnerHasHighestScore}
           />
         )}
         {gameStatus === 'mid' && (
@@ -92,6 +98,7 @@ const App = () => {
             players={players}
             setPlayers={setPlayers}
             mockData={mockData}
+            winnerHasHighestScore={winnerHasHighestScore}
           />
         )}
       </main>

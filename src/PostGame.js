@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from 'react';
 import {
   Container,
   Typography,
@@ -11,53 +11,60 @@ import {
   TableRow,
   TableCell,
   TableBody,
-  Avatar,
-} from "@material-ui/core";
-import RedoIcon from "@material-ui/icons/Redo";
+  Avatar
+} from '@material-ui/core';
+import RedoIcon from '@material-ui/icons/Redo';
 
 const useStyles = makeStyles({
   postCard: {
-    margin: "2rem 1rem",
-    padding: "1rem",
-    paddingBottom: "2rem",
-    textAlign: "center",
+    margin: '2rem 1rem',
+    padding: '1rem',
+    paddingBottom: '2rem',
+    textAlign: 'center'
   },
   bolded: {
-    fontWeight: "bold",
-  },
+    fontWeight: 'bold'
+  }
 });
 
 const PostGame = (props) => {
-  const { setGameStatus, players, setPlayers, mockData } = props;
+  const {
+    setGameStatus,
+    players,
+    setPlayers,
+    mockData,
+    winnerHasHighestScore
+  } = props;
 
   const classes = useStyles();
 
-  const winnerObj = players.reduce((max, p) => {
-    if (max.score > p.score) return max;
-    else if (max.score === p.score) return { msg: "No winner, it's a tie!" };
-    else return p;
-  });
-
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
+  let winningPlayers = [];
+  if (winnerHasHighestScore) {
+    const highestScore = Math.max(...players.map((player) => player.score));
+    winningPlayers = players.filter((player) => player.score === highestScore);
+  } else {
+    const lowestScore = Math.min(...players.map((player) => player.score));
+    winningPlayers = players.filter((player) => player.score === lowestScore);
+  }
+  const hasOneWinner = winningPlayers.length === 1;
+  const winningPlayer = winningPlayers[0];
 
   return (
-    <Container maxWidth="sm">
+    <Container maxWidth='sm'>
       <Card className={classes.postCard}>
         <Box p={2}>
-          <Typography variant="h2" align="center" color="primary" gutterBottom>
+          <Typography variant='h2' align='center' color='primary' gutterBottom>
             Results
           </Typography>
-          <Typography variant="h4" color="secondary" gutterBottom>
+          <Typography variant='h4' color='secondary' gutterBottom>
             Winner
           </Typography>
-          <Typography variant="h5">
-            {winnerObj.name || winnerObj.msg}
+          <Typography variant='h5'>
+            {hasOneWinner ? winningPlayer.name : "No winner, it's a tie!"}
           </Typography>
         </Box>
         <Box p={4}>
-          <Typography variant="h4" color="secondary">
+          <Typography variant='h4' color='secondary'>
             Final Scores
           </Typography>
           <Table p={2}>
@@ -76,16 +83,20 @@ const PostGame = (props) => {
                   </TableCell>
                   <TableCell>
                     <Typography
-                      variant="h5"
-                      className={player.id === winnerObj.id && classes.bolded}
+                      variant='h5'
+                      className={
+                        player.id === winningPlayer.id ? classes.bolded : ''
+                      }
                     >
                       {player.name}
                     </Typography>
                   </TableCell>
                   <TableCell>
                     <Typography
-                      variant="h5"
-                      className={player.id === winnerObj.id && classes.bolded}
+                      variant='h5'
+                      className={
+                        player.id === winningPlayer.id ? classes.bolded : ''
+                      }
                     >
                       {player.score}
                     </Typography>
@@ -96,11 +107,11 @@ const PostGame = (props) => {
           </Table>
         </Box>
         <Button
-          variant="contained"
-          color="primary"
+          variant='contained'
+          color='primary'
           endIcon={<RedoIcon />}
           onClick={() => {
-            setGameStatus("pre");
+            setGameStatus('pre');
             setPlayers(mockData);
           }}
         >
