@@ -106,7 +106,7 @@ const App = () => {
         <IconButton
           color='primary'
           target='_blank'
-          href='https://github.com/brighamandersen/scoreboard'
+          href='https://github.com/brighambandersen/scoreboard'
           className={classes.bottomRight}
         >
           <GitHubIcon />
